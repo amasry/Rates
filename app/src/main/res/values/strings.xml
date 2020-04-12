@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Rates</string>
+    <string name="image_flag">flag</string>
+    <string name="general_error">Something went wrong. Please try again.</string>
+</resources>
