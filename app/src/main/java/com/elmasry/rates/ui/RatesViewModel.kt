@@ -81,7 +81,6 @@ class RatesViewModel(
                 }
             }
             .map { rate -> Amount(rate.first, rate.second * baseCurrency.value) }
-        println(list)
         data.postValue(list)
     }
 
