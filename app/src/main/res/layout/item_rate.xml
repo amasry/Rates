@@ -11,7 +11,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{v ->  vm.onViewClicked()}">
 
         <EditText
             android:id="@+id/et_rate"
@@ -20,8 +21,9 @@
             android:layout_marginEnd="@dimen/margin_large"
             android:text="@{vm.value}"
             android:digits="0123456789.,"
-            android:onTextChanged="@{(text, s, b, c) -> vm.onValueChanged(text.toString())}"
+            app:requestFocus="@{vm.valueFocused}"
             app:onFocusChangeListener="@{(v, isFocused) -> vm.onValueFocused(isFocused)}"
+            android:onTextChanged="@{(text, s, b, c) -> vm.onValueChanged(text.toString())}"
             android:inputType="number"
             android:imeOptions="actionDone"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -91,13 +91,15 @@ class RatesViewModel(
     }
 
     override fun onCurrencyRateChanged(amount: Amount) {
-        if (baseCurrency.currencyCode == amount.currencyCode) {
-            baseCurrency = amount
-            createDataList()
-        } else if (baseCurrency != amount) {
-            baseCurrency = amount
-            loadCurrencyRates()
-            startTimer()
+        if (baseCurrency != amount) {
+            if (baseCurrency.currencyCode == amount.currencyCode) {
+                baseCurrency = amount
+                createDataList()
+            } else {
+                baseCurrency = amount
+                loadCurrencyRates()
+                startTimer()
+            }
         }
     }
 

@@ -51,6 +51,7 @@ class RatesItemViewModelTest {
         assertThat(viewModel.currencyName.get()).isEqualTo("Euro")
         assertThat(viewModel.value.get()).isEqualTo("100")
         assertThat(viewModel.flagDrawable.get()).isEqualTo(drawable)
+        assertThat(viewModel.valueFocused.get()).isFalse()
     }
 
     @Test
@@ -107,5 +108,14 @@ class RatesItemViewModelTest {
         viewModel.onValueFocused(false)
 
         then(onCurrencyRateChangedListener).should(never()).onCurrencyRateChanged(any())
+    }
+
+    @Test
+    fun `onViewClicked should call OnCurrencyRateChangedListener`() {
+        viewModel.bind(amount)
+        viewModel.onViewClicked()
+
+        then(onCurrencyRateChangedListener).should().onCurrencyRateChanged(amount)
+        assertThat(viewModel.valueFocused.get()).isTrue()
     }
 }
