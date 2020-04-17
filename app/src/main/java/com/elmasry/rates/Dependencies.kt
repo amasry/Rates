@@ -17,7 +17,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-private const val BASE_URL = "https://hiring.revolut.codes/"
+private const val BASE_URL = "https://prime.exchangerate-api.com/"
 
 object Dependencies {
 
@@ -42,9 +42,9 @@ object Dependencies {
         }
     }
 
-    fun createMoshi(): Moshi = Moshi.Builder().build()
+    private fun createMoshi(): Moshi = Moshi.Builder().build()
 
-    fun createRetrofit(
+    private fun createRetrofit(
         baseUrl: String = BASE_URL,
         client: OkHttpClient = createOkHttpClient(),
         moshi: Moshi = createMoshi()
@@ -63,7 +63,7 @@ object Dependencies {
             .build()
     }
 
-    fun createOkHttpClient(
+    private fun createOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor = HttpLoggingInterceptor()
     ): OkHttpClient {
         return OkHttpClient.Builder()

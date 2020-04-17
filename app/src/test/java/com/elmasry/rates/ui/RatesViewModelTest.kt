@@ -11,19 +11,15 @@ import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.schedulers.TestScheduler
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
-import org.mockito.BDDMockito.then
-import org.mockito.BDDMockito.times
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 @RunWith(MockitoJUnitRunner::class)
 class RatesViewModelTest {
@@ -46,6 +42,7 @@ class RatesViewModelTest {
     private val rates = Rates(
         baseCurrency = "EUR",
         conversionRates = mapOf(
+            "EUR" to 1.0,
             "USD" to 1.69,
             "AUD" to 2.56
         )
@@ -69,20 +66,6 @@ class RatesViewModelTest {
 
         viewModel = RatesViewModel(ratesRepository)
 
-        assertThat(viewModel.data.value).isEqualTo(amountsList)
-    }
-
-    @Test
-    fun `onResume should start a timer to load rates every 1 second`() {
-        val testScheduler = TestScheduler()
-        RxJavaPlugins.setComputationSchedulerHandler { testScheduler }
-        given(ratesRepository.getRates("EUR")).willReturn(Single.just(rates))
-
-        viewModel = RatesViewModel(ratesRepository)
-        viewModel.onResume()
-        testScheduler.advanceTimeBy(3, TimeUnit.SECONDS)
-
-        then(ratesRepository).should(times(4)).getRates("EUR")
         assertThat(viewModel.data.value).isEqualTo(amountsList)
     }
 
@@ -125,21 +108,6 @@ class RatesViewModelTest {
         viewModel.onCurrencyRateChanged(Amount("EUR", 200.0))
 
         assertThat(viewModel.data.value).isEqualTo(updatedAmountList)
-    }
-
-    @Test
-    fun `onPause should stop timer`() {
-        val testScheduler = TestScheduler()
-        RxJavaPlugins.setComputationSchedulerHandler { testScheduler }
-        given(ratesRepository.getRates("EUR")).willReturn(Single.just(rates))
-
-        viewModel = RatesViewModel(ratesRepository)
-        viewModel.onResume()
-        viewModel.onPause()
-        testScheduler.advanceTimeBy(3, TimeUnit.SECONDS)
-
-        then(ratesRepository).should(times(1)).getRates("EUR")
-        assertThat(viewModel.data.value).isEqualTo(amountsList)
     }
 
     @Test

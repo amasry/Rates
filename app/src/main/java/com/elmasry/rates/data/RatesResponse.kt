@@ -7,6 +7,6 @@ import com.squareup.moshi.JsonClass
 @Keep
 @JsonClass(generateAdapter = true)
 data class RatesResponse(
-    @Json(name = "baseCurrency") val baseCurrency: String,
-    @Json(name = "rates") val rates : Map<String, Double>
+    @Json(name = "base") val baseCurrency: String,
+    @Json(name = "conversion_rates") val rates : Map<String, Double>
 )
